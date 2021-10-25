@@ -15,12 +15,19 @@ class CreateMaterialsTable extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('partner_id')->nullable();
+            $table->unsignedInteger('partner_id')->nullable();
             $table->string('title')->nullable();
             $table->text('about')->nullable();
             $table->string('link')->nullable();
-            $table->unsignedBigInteger('image_id')->nullable();
+            $table->unsignedInteger('image_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('image_id')
+                ->references('id')
+                ->on('attachments')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
         });
     }
 

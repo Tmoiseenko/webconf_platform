@@ -20,11 +20,11 @@ services:
         volumes:
             - '.:/var/www/html'
         networks:
-            - sail
+            - webconf
         depends_on:
-            - mysql
-            - redis
-    mysql:
+            - webconf_mysql
+            - webconf_redis
+    webconf_mysql:
         image: 'mysql:8.0'
         ports:
             - '${FORWARD_DB_PORT:-3306}:3306'
@@ -35,30 +35,30 @@ services:
             MYSQL_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
         volumes:
-            - 'sailmysql:/var/lib/mysql'
+            - 'webconf-sailmysql:/var/lib/mysql'
         networks:
-            - sail
+            - webconf
         healthcheck:
           test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
           retries: 3
           timeout: 5s
-    redis:
+    webconf_redis:
         image: 'redis:alpine'
         ports:
             - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
-            - 'sailredis:/data'
+            - 'webconf-sailredis:/data'
         networks:
-            - sail
+            - webconf
         healthcheck:
           test: ["CMD", "redis-cli", "ping"]
           retries: 3
           timeout: 5s
 networks:
-    sail:
+    webconf:
         driver: bridge
 volumes:
-    sailmysql:
+    webconf-sailmysql:
         driver: local
-    sailredis:
+    webconf-sailredis:
         driver: local

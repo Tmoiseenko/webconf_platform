@@ -18,9 +18,8 @@ class CreateSettingsTable extends Migration
             $table->text('iframe_link');
             $table->text('title');
             $table->text('description');
-            $table->text('event_link');
-            $table->timestamp('start_time');
-            $table->timestamp('end_time');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->timestamps();
         });
     }
