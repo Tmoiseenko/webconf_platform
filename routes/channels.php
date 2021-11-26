@@ -13,6 +13,17 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::routes();
+
+Broadcast::channel('chat', function ($user) {
+    return ['id' => $user->id, 'name' => $user->name];
 });
+
+Broadcast::channel('likes', function ($user) {
+    return ['id' => $user->id, 'name' => $user->name];
+});
+
+Broadcast::channel('bans', function ($user) {
+    return ['id' => $user->id, 'name' => $user->name];
+});
+

@@ -7,6 +7,7 @@ use App\Models\Partner;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\DateTimer;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Picture;
@@ -90,11 +91,15 @@ class MaterialsEditScreen extends Screen
                 Input::make('material.link')
                     ->title(__('admin.materials.link')),
 
+                Input::make('material.order')
+                    ->type('number')
+                    ->title(__('admin.materials.order')),
+
                 Relation::make('material.partner_id')
                     ->title(__('admin.materials.partner'))
                     ->fromModel(Partner::class, 'title'),
 
-                Picture::make('material.image_id')
+                Cropper::make('material.image_id')
                     ->title(__('admin.materials.image_id'))
                     ->targetId()
 

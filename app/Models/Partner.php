@@ -18,6 +18,7 @@ class Partner extends Model
         'about',
         'link',
         'image_id',
+        'order',
     ];
 
     public function image()

@@ -24,4 +24,8 @@ class Material extends Model
     {
         return $this->hasOne(Attachment::class, 'id', 'image_id');
     }
+
+    public function partner() {
+        return $this->belongsTo('App\Models\Partner');
+    }
 }

@@ -7,6 +7,8 @@ use App\Orchid\Screens\Materials\MaterialsListScreen;
 use App\Orchid\Screens\Partners\PartnersEditScreen;
 use App\Orchid\Screens\Partners\PartnersListScreen;
 use App\Orchid\Screens\PlatformScreen;
+use App\Orchid\Screens\Programs\ProgramsEditScreen;
+use App\Orchid\Screens\Programs\ProgramsListScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
 use App\Orchid\Screens\Settings\SettingsEditScreen;
@@ -155,7 +157,21 @@ Route::screen('partners', PartnersListScreen::class)
     });
 
 
-
+// Platform > Programs
+Route::screen('program/{program?}', ProgramsEditScreen::class)
+    ->name('platform.program.edit')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.partners.list')
+            ->push(__('admin.programs.edit_banner'));
+    });
+Route::screen('programs', ProgramsListScreen::class)
+    ->name('platform.programs.list')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.programs.panel_name'), route('platform.programs.list'));
+    });
 
 
 

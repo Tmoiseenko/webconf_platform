@@ -19,6 +19,8 @@ class CreatePartnersTable extends Migration
             $table->text('about')->nullable();
             $table->string('link')->nullable();
             $table->unsignedInteger('image_id')->nullable();
+            $table->string('status_id', 50)->nullable();
+            $table->integer('order')->nullable()->default(0);
             $table->timestamps();
 
             $table->foreign('image_id')

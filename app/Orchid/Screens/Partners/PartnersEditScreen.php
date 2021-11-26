@@ -5,6 +5,7 @@ namespace App\Orchid\Screens\Partners;
 use App\Models\Partner;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Relation;
@@ -82,7 +83,12 @@ class PartnersEditScreen extends Screen
                     ->title(__('admin.partners.link'))
                     ->placeholder(__('admin.partners.link_placeholder')),
 
-                Picture::make('partner.image_id')
+                Input::make('partner.order')
+                    ->type('number')
+                    ->title(__('admin.partners.order')),
+
+                Cropper::make('partner.image_id')
+                    ->maxWidth(150)
                     ->title(__('admin.partners.image_id'))
                     ->targetId()
 

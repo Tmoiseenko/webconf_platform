@@ -1,6 +1,13 @@
 <?php
 return [
     'delete_item' => 'Are you sure you want to delete the :item?',
+
+    'permission' => [
+        'admin' => 'Administrator',
+        'manager' => 'Manager',
+        'user' => 'User'
+    ],
+
     'settings' => [
         'index' => 'Editing event settings',
         'menu_title' => 'Event settings',
@@ -38,6 +45,18 @@ return [
         'about' => 'Partner description',
         'description_placeholder' => 'Enter partner short description',
         'link' => 'Link to Partner site',
+        'image_id' => 'Upload image',
+    ],
+
+    'programs' => [
+        'item' => 'Programs',
+        'menu_title' => 'Programs',
+        'panel_name' => 'Programs',
+        'title' => 'Programs title',
+        'title_placeholder' => 'Programs name',
+        'about' => 'Programs description',
+        'description_placeholder' => 'Enter Programs short description',
+        'link' => 'Link to Programs site',
         'image_id' => 'Upload image',
     ]
 ];

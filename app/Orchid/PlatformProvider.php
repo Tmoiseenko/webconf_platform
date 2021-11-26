@@ -31,17 +31,22 @@ class PlatformProvider extends OrchidServiceProvider
             Menu::make(__('admin.settings.menu_title'))
                 ->icon('event')
                 ->route('platform.settings')
-                ->permission('platform.systems.roles'),
-
-            Menu::make(__('admin.materials.menu_title'))
-                ->icon('docs')
-                ->route('platform.materials.list')
-                ->permission('platform.systems.roles'),
+                ->permission('platform.systems.manager'),
 
             Menu::make(__('admin.partners.menu_title'))
                 ->icon('organization')
                 ->route('platform.partners.list')
-                ->permission('platform.systems.roles'),
+                ->permission('platform.systems.manager'),
+
+            Menu::make(__('admin.materials.menu_title'))
+                ->icon('docs')
+                ->route('platform.materials.list')
+                ->permission('platform.systems.manager'),
+
+            Menu::make(__('admin.programs.menu_title'))
+                ->icon('task')
+                ->route('platform.programs.list')
+                ->permission('platform.systems.manager'),
 
             Menu::make(__('Users'))
                 ->icon('user')
@@ -76,7 +81,9 @@ class PlatformProvider extends OrchidServiceProvider
         return [
             ItemPermission::group(__('System'))
                 ->addPermission('platform.systems.roles', __('Roles'))
-                ->addPermission('platform.systems.users', __('Users')),
+                ->addPermission('platform.systems.manager', __('admin.permission.manager'))
+                ->addPermission('platform.systems.users', __('Users'))
+                ->addPermission('platform.user', __('admin.permissions.user')),
         ];
     }
 }

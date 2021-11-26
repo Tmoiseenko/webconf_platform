@@ -10,12 +10,10 @@ use Orchid\Support\Facades\Alert;
 
 class PartnersListScreen extends Screen
 {
-    /**
-     * Display header name.
-     *
-     * @var string
-     */
-    public $name = 'PartnersListScreen';
+    public function __construct()
+    {
+        $this->name = __('admin.partners.panel_name');
+    }
 
     /**
      * Query data.
