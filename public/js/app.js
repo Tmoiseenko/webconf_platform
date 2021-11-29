@@ -2297,8 +2297,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     allowChat: Number,
-    user: String,
-    isManager: Number
+    user: String // isManager: Number
+
   },
   data: function data() {
     return {
@@ -2334,7 +2334,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       hasMore: true,
       moreLoading: false,
       replyId: -1,
-      reply: {}
+      reply: {},
+      isManage: {}
     };
   },
   created: function created() {
@@ -2344,6 +2345,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _this = this;
 
     this.userO = this.user != '' ? JSON.parse(this.user) : '';
+    this.isManage = this.isManagerCheck();
     axios.get('/chat').then(function (response) {
       _this.messages = response.data.messages.data;
 
@@ -2421,6 +2423,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, 100);
   },
   methods: {
+    isManagerCheck: function isManagerCheck() {
+      if (this.userO.roles.find(function (x) {
+        return x.slug === 'manager';
+      }) !== undefined) {
+        return this.userO.roles.find(function (x) {
+          return x.slug === 'manager';
+        }).slug === 'manager';
+      }
+
+      return false;
+    },
     addReply: function addReply(postId) {
       this.replyId = postId;
       var idx = this.messages.findIndex(function (item) {
@@ -2688,7 +2701,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (this.message != null) {
         if (this.message.trim() != '' && this.message.trim().length > 0) {
           this.loadedButton = false;
-          console.log(this.message);
           axios.post('/chat/send', {
             body: this.message,
             reply_id: this.replyId
@@ -72333,7 +72345,7 @@ var render = function () {
               _vm._v(" "),
               _vm._m(0),
               _vm._v(" "),
-              _vm.isManager == 1
+              _vm.isManage
                 ? _c("small", { staticClass: "chat-online float-right" }, [
                     _vm._v("Смотрят: " + _vm._s(_vm.users.length) + " чел"),
                   ])
