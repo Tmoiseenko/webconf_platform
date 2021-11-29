@@ -134,7 +134,6 @@ export default {
     props: {
         allowChat: Number,
         user: String,
-        // isManager: Number
     },
     data() {
         return {
@@ -180,6 +179,7 @@ export default {
     mounted() {
         this.userO = this.user != '' ? JSON.parse(this.user) : ''
         this.isManage = this.isManagerCheck()
+
         axios.get('/chat')
             .then((response) => {
                 this.messages = response.data.messages.data
