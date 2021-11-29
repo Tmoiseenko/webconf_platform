@@ -26,7 +26,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'permissions',
     ];
 
     /**
@@ -63,4 +62,6 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    protected $with = ['roles'];
 }

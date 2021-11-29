@@ -10,7 +10,7 @@
                 <span v-else><small class="font-normal">Свернуть чат</small></span>
             </div>
             <span><span class="dot"></span> LIVE</span>
-            <small class="chat-online float-right" v-if="isManager == 1">Смотрят: {{ users.length }} чел</small>
+            <small class="chat-online float-right" v-if="isManage">Смотрят: {{ users.length }} чел</small>
         </div>
             <div class="chat-feed" ref="chatfeed">
                 <div v-if="loaded == false" class="min-loader d-flex justify-content-center">
@@ -134,7 +134,6 @@ export default {
     props: {
         allowChat: Number,
         user: String,
-        isManager: Number
     },
     data() {
         return {
@@ -170,7 +169,8 @@ export default {
             hasMore: true,
             moreLoading: false,
             replyId: -1,
-            reply: {}
+            reply: {},
+            isManage: {},
         }
     },
     created() {
@@ -178,11 +178,11 @@ export default {
     },
     mounted() {
         this.userO = this.user != '' ? JSON.parse(this.user) : ''
+        this.isManage = this.isManagerCheck()
 
         axios.get('/chat')
             .then((response) => {
                 this.messages = response.data.messages.data
-
                 this.messages.forEach(message => {
                     if(message.reactions != null) {
                         message.likes = message.reactions.filter(item => item.type_id === 'like')
@@ -255,6 +255,13 @@ export default {
         }, 100)
     },
     methods: {
+        isManagerCheck() {
+            if (this.userO.roles.find(x => x.slug === 'manager') !== undefined) {
+                return this.userO.roles.find(x => x.slug === 'manager').slug === 'manager'
+            }
+            return false
+        },
+
         addReply(postId) {
             this.replyId = postId
 
@@ -515,7 +522,6 @@ export default {
                 if(this.message.trim() != '' && this.message.trim().length > 0) {
 
                     this.loadedButton = false
-                    console.log(this.message)
                     axios.post('/chat/send', {
                        body: this.message,
                        reply_id: this.replyId
