@@ -22,7 +22,7 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        $programs = Program::orderBy('order', 'asc')->get();
+        $programs = Program::orderBy('started_at', 'asc')->get();
         return view('auth.register', compact('programs'));
     }
 
@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'phone' => ['required', 'numeric', 'min:11'],
+            'phone' => ['required', 'regex:/^\+7\(\d{2}\) \d{3}-\d{2}-\d{2}$/i'],
             'company' => 'required|string|max:255',
             'position' => 'required|string|max:255',
             'agree' => ['required'],
@@ -48,8 +48,7 @@ class RegisteredUserController extends Controller
         ]);
 
         Auth::login($user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
+            'name' => $request->first_name . " " . $request->last_name,
             'phone' => $request->phone,
             'email' => $request->email,
             'company' => $request->company,
@@ -60,13 +59,6 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
         event(new SendCalendar($user));
 
-        $now = \Carbon\Carbon::now();
-        $newSession = new Session();
-        $newSession->id = sha1(Auth::user()->id . $now->timestamp);
-        $newSession->user_id = Auth::user()->id;
-        $newSession->connected_at = $now;
-        $newSession->last_activity = $now->timestamp;
-        $newSession->save();
 
         return redirect(RouteServiceProvider::HOME);
     }

@@ -8,7 +8,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    <script>
+        window.echoConfig = {
+            host: {!! json_encode(env('APP_URL')) !!},
+            port: {!! json_encode(env('LARAVEL_ECHO_SERVER_PORT')) !!}
+        };
+    </script>
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
 
