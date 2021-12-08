@@ -5,6 +5,9 @@
  */
 
  require('./bootstrap');
+window.$ = window.jQuery = require('jquery');
+
+require('jquery-mask-plugin/src/jquery.mask');
 
  // window.Vue = require('vue');
  import Vue from 'vue'
@@ -34,4 +37,9 @@
  const app = new Vue({
      el: '#app',
  });
+
+$(document).ready($ => {
+    $('#phone').mask('+7(99) 999-99-99');
+})
+
 
