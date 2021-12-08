@@ -14,9 +14,9 @@
                 </div>
             </div>
         </div>
-
+        @if($$materials)
         <section class="mt-5" id="rooms">
-            <h2 class="text-primary mb-3 mt-5">Материалы для скачивания</h2>
+            <h2 class="text-primary mb-3 mt-5">{{ __('front.title.materials') }}</h2>
             <hr>
             <div class="row mt-4">
                 @foreach($materials as $material)
@@ -40,9 +40,10 @@
                 @endforeach
             </div>
         </section>
-
+        @endif
+        @if($$programs)
         <section class="mt-5" id="program">
-            <h2 class="text-primary mb-3 mt-5">Программа</h2>
+            <h2 class="text-primary mb-3 mt-5">{{ __('front.title.programs') }}</h2>
             <hr>
             @foreach($programs as $program)
                 @if($program->vip == 0)
@@ -76,9 +77,10 @@
                 @endif
             @endforeach
         </section>
-
+        @endif
+        @if($$partners)
         <section class="mt-5" id="partners">
-            <h2 class="text-primary mb-3 mt-5">Партнеры</h2>
+            <h2 class="text-primary mb-3 mt-5">{{ __('front.title.partners') }}</h2>
             <hr>
             <div class="row mt-4 pt-3">
                 @foreach($partners as $partner)
@@ -96,6 +98,9 @@
                 @endforeach
             </div>
         </section>
+        @endif
+
+
     </div>
 @endsection
 

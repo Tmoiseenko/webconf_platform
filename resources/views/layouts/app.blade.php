@@ -32,7 +32,7 @@
                     <li class="d-flex align-items-center mr-3">
                         <main-menu></main-menu>
                     </li>
-                    <li class="logo-type">ИНФОСЭЛ</li>
+                    <li class="logo-type">{{ __('front.title.main_title') }}</li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     @guest
@@ -49,7 +49,9 @@
                         @endif
                     @else
                         <li class="nav-item dropdown d-none d-lg-block">
-                            <button class="btn btn-sm btn-light px-3" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Выход</button>
+                            <button class="btn btn-sm btn-light px-3" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('front.title.logout') }}
+                            </button>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
@@ -74,13 +76,13 @@
                     <div class="d-flex justify-content-lg-between justify-content-md-center align-items-center px-3">
                         <div class="d-flex align-items-center">
                             <div class="mr-4"><img src="/images/logo.svg" alt="INFODay2021" class="logo"></div>
-                            <div class="copyright">Все права защищены</div>
+                            <div class="copyright">{{ __('front.title.all_right_reserved') }}</div>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-6 d-md-flex justify-content-lg-end justify-content-md-center">
                     <div class="copyright text-md-left">
-                        По вопросам, связанным с мероприятием,<br />пишите на почту <a href="mailto:inform@infocell.ru" class="text-white link">inform@infocell.ru</a>
+                        <a href="mailto:inform@infocell.ru" class="text-white link">{!!  __('front.title.write_on_email') !!} inform@infocell.ru</a>
                     </div>
                 </div>
             </div>
