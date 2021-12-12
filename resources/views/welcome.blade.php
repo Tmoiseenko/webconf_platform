@@ -14,9 +14,38 @@
                 </div>
             </div>
         </div>
-
+        @if($rooms)
         <section class="mt-5" id="rooms">
-            <h2 class="text-primary mb-3 mt-5">Материалы для скачивания</h2>
+            <h2 class="text-primary mb-3 mt-5">{{ __('front.title.rooms') }}</h2>
+            <hr>
+            <div class="row mt-4">
+                @foreach($rooms as $room)
+                    <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">
+                        <a class="link" target="_blank" href="{{ $room->link }}">
+                            <div class="card-low">
+                                <div class="card-body text-center">
+                                    @if($room->partner)
+                                        <div class="partner-logo">
+                                            <div style="background-image: url({{ $room->image->getRelativeUrlAttribute() }})"></div>
+                                        </div>
+                                    @endif
+                                    <h3 class="mt-3">{{ $room->title }}</h3>
+                                    <div class="mt-3 text-left font-normal room-about">{{ $room->about }}</div>
+
+
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+
+        @endif
+
+        @if($materials)
+        <section class="mt-5" id="rooms">
+            <h2 class="text-primary mb-3 mt-5">{{ __('front.title.materials') }}</h2>
             <hr>
             <div class="row mt-4">
                 @foreach($materials as $material)
@@ -41,34 +70,11 @@
             </div>
         </section>
 
-        <section class="mt-5" id="rooms">
-            <h2 class="text-primary mb-3 mt-5">Материалы для скачивания</h2>
-            <hr>
-            <div class="row mt-4">
-                @foreach($materials as $material)
-                    <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">
-                        <a class="link" target="_blank" href="{{ $material->link }}">
-                            <div class="card-low">
-                                <div class="card-body text-center">
-                                    @if($material->partner)
-                                        <div class="partner-logo">
-                                            <div style="background-image: url({{ $material->image->getRelativeUrlAttribute() }})"></div>
-                                        </div>
-                                    @endif
-                                    <h3 class="mt-3">{{ $material->title }}</h3>
-                                    <div class="mt-3 text-left font-normal room-about">{{ $material->about }}</div>
+        @endif
 
-
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-        </section>
-
+        @if($programs)
         <section class="mt-5" id="program">
-            <h2 class="text-primary mb-3 mt-5">Программа</h2>
+            <h2 class="text-primary mb-3 mt-5">{{ __('front.title.programs') }}</h2>
             <hr>
             @foreach($programs as $program)
                 @if($program->vip == 0)
@@ -102,9 +108,10 @@
                 @endif
             @endforeach
         </section>
-
+        @endif
+        @if($partners)
         <section class="mt-5" id="partners">
-            <h2 class="text-primary mb-3 mt-5">Партнеры</h2>
+            <h2 class="text-primary mb-3 mt-5">{{ __('front.title.partners') }}</h2>
             <hr>
             <div class="row mt-4 pt-3">
                 @foreach($partners as $partner)
@@ -122,6 +129,9 @@
                 @endforeach
             </div>
         </section>
+        @endif
+
+
     </div>
 @endsection
 
