@@ -43,6 +43,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.materials.list')
                 ->permission('platform.systems.manager'),
 
+            Menu::make(__('admin.rooms.menu_title'))
+                ->icon('screen-desktop')
+                ->route('platform.rooms.list')
+                ->permission('platform.systems.manager'),
+
             Menu::make(__('admin.programs.menu_title'))
                 ->icon('task')
                 ->route('platform.programs.list')

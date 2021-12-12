@@ -19,6 +19,7 @@ return [
     ],
     'title' => [
         'main_title' => 'ИНФОСЭЛ',
+        'rooms' => 'Трансляции',
         'programs' => 'Программа',
         'register' => 'Регистрация',
         'login' => 'Войти',

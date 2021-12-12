@@ -23,7 +23,7 @@ class PartnersListScreen extends Screen
     public function query(): array
     {
         return [
-            'partners' => Partner::paginate()
+            'partners' => Partner::orderBy('order', 'asc')->paginate()
         ];
     }
 

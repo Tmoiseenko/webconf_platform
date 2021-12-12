@@ -14,7 +14,36 @@
                 </div>
             </div>
         </div>
-        @if($$materials)
+        @if($rooms->isNotEmpty())
+        <section class="mt-5" id="rooms">
+            <h2 class="text-primary mb-3 mt-5">{{ __('front.title.rooms') }}</h2>
+            <hr>
+            <div class="row mt-4">
+                @foreach($rooms as $room)
+                    <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">
+                        <a class="link" target="_blank" href="{{ $room->link }}">
+                            <div class="card-low">
+                                <div class="card-body text-center">
+                                    @if($room->partner)
+                                        <div class="partner-logo">
+                                            <div style="background-image: url({{ $room->image->getRelativeUrlAttribute() }})"></div>
+                                        </div>
+                                    @endif
+                                    <h3 class="mt-3">{{ $room->title }}</h3>
+                                    <div class="mt-3 text-left font-normal room-about">{{ $room->about }}</div>
+
+
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+
+        @endif
+
+        @if($materials->isNotEmpty())
         <section class="mt-5" id="rooms">
             <h2 class="text-primary mb-3 mt-5">{{ __('front.title.materials') }}</h2>
             <hr>
@@ -40,8 +69,10 @@
                 @endforeach
             </div>
         </section>
+
         @endif
-        @if($$programs)
+
+        @if($programs->isNotEmpty())
         <section class="mt-5" id="program">
             <h2 class="text-primary mb-3 mt-5">{{ __('front.title.programs') }}</h2>
             <hr>
@@ -49,7 +80,10 @@
                 @if($program->vip == 0)
                     <div class="row mt-4 mb-5">
                         <div class="col-sm-3">
-                            <h3 class="font-program">{{ $program->started_at }} - {{ $program->finished_at }}</h3>
+                            <h3 class="font-program">
+                                {{ Illuminate\Support\Carbon::parse($program->started_at)->format('H:i') }} -
+                                {{ Illuminate\Support\Carbon::parse($program->finished_at)->format('H:i') }}
+                            </h3>
                         </div>
                         <div class="col-sm-9 mt-3 mt-sm-0">
                             <h3 class="font-program">{{ $program->author }}</h3>
@@ -65,7 +99,9 @@
                 @else
                     <div class="row mt-4">
                         <div class="col-sm-3">
-                            <h3 class="font-program">{{ $program->started_at }} - {{ $program->finished_at }}</h3>
+                            <h3 class="font-program">
+                                {{ Illuminate\Support\Carbon::parse($program->started_at)->format('H:i') }} -
+                                {{ Illuminate\Support\Carbon::parse($program->finished_at)->format('H:i') }}</h3>
                         </div>
                         <div class="col-sm-9 mt-3 mt-sm-0">
                             <img src="{{ $program->image->getRelativeUrlAttribute() }}" alt="{{ $program->author }}" class="vip-speaker mr-3">
@@ -78,7 +114,7 @@
             @endforeach
         </section>
         @endif
-        @if($$partners)
+        @if($partners->isNotEmpty())
         <section class="mt-5" id="partners">
             <h2 class="text-primary mb-3 mt-5">{{ __('front.title.partners') }}</h2>
             <hr>
