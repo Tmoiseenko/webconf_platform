@@ -41,6 +41,32 @@
             </div>
         </section>
 
+        <section class="mt-5" id="rooms">
+            <h2 class="text-primary mb-3 mt-5">Материалы для скачивания</h2>
+            <hr>
+            <div class="row mt-4">
+                @foreach($materials as $material)
+                    <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">
+                        <a class="link" target="_blank" href="{{ $material->link }}">
+                            <div class="card-low">
+                                <div class="card-body text-center">
+                                    @if($material->partner)
+                                        <div class="partner-logo">
+                                            <div style="background-image: url({{ $material->image->getRelativeUrlAttribute() }})"></div>
+                                        </div>
+                                    @endif
+                                    <h3 class="mt-3">{{ $material->title }}</h3>
+                                    <div class="mt-3 text-left font-normal room-about">{{ $material->about }}</div>
+
+
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+
         <section class="mt-5" id="program">
             <h2 class="text-primary mb-3 mt-5">Программа</h2>
             <hr>
@@ -48,7 +74,7 @@
                 @if($program->vip == 0)
                     <div class="row mt-4 mb-5">
                         <div class="col-sm-3">
-                            <h3 class="font-program">{{ $program->started_at }} - {{ $program->finished_at }}</h3>
+                            <h3 class="font-program">{{ Illuminate\Support\Carbon::parse($program->started_at)->format('H:i') }} - {{ Illuminate\Support\Carbon::parse($program->finished_at)->format('H:i') }}</h3>
                         </div>
                         <div class="col-sm-9 mt-3 mt-sm-0">
                             <h3 class="font-program">{{ $program->author }}</h3>

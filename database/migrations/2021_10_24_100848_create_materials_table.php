@@ -21,7 +21,7 @@ class CreateMaterialsTable extends Migration
             $table->string('status_id', 50)->nullable();
             $table->integer('order')->nullable()->default(0);
             $table->unsignedInteger('image_id')->nullable();
-            $table->unsignedInteger('partner_id')->nullable();
+            $table->unsignedBigInteger('partner_id')->nullable();
             $table->timestamps();
 
             $table->foreign('image_id')
@@ -32,7 +32,7 @@ class CreateMaterialsTable extends Migration
 
             $table->foreign('partner_id')
                 ->references('id')
-                ->on('attachments')
+                ->on('partners')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
 

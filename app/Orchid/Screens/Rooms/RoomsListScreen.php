@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Orchid\Screens\Programs;
+namespace App\Orchid\Screens\Rooms;
 
-use App\Models\Program;
-use App\Orchid\Layouts\Programs\ProgramsListLayout;
+use App\Models\Material;
+use App\Models\Room;
+use App\Orchid\Layouts\Rooms\RoomsListLayout;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Alert;
 
-class ProgramsListScreen extends Screen
+class RoomsListScreen extends Screen
 {
     public function __construct()
     {
-        $this->name = __('admin.programs.panel_name');
+        $this->name = __('admin.rooms.panel_name');
     }
 
     /**
@@ -23,7 +24,7 @@ class ProgramsListScreen extends Screen
     public function query(): array
     {
         return [
-            'programs' => Program::orderBy('started_at', 'asc')->paginate()
+            'rooms' => Room::orderBy('order', 'asc')->paginate()
         ];
     }
 
@@ -37,7 +38,7 @@ class ProgramsListScreen extends Screen
         return [
             Link::make('Create')
                 ->icon('pencil')
-                ->route('platform.program.edit'),
+                ->route('platform.room.edit'),
         ];
     }
 
@@ -49,15 +50,15 @@ class ProgramsListScreen extends Screen
     public function layout(): array
     {
         return [
-            ProgramsListLayout::class
+            RoomsListLayout::class,
         ];
     }
 
     public function remove($id)
     {
-        Program::where('id', $id)->delete();
-        Alert::success(__('admin.programs.success_deleted'));
+        Room::where('id', $id)->delete();
+        Alert::success(__('admin.rooms.success_deleted'));
 
-        return redirect()->route('platform.programs.list');
+        return redirect()->route('platform.rooms.list');
     }
 }

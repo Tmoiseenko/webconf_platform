@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Room;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 use App\Models\Material;
@@ -28,10 +29,11 @@ class HomeController extends Controller
     public function index()
     {
         $event = Setting::first();
+        $rooms = Room::orderBy('order', 'asc')->get();
         $materials = Material::orderBy('order', 'asc')->get();
         $partners = Partner::orderBy('order', 'asc')->get();
         $programs = Program::orderBy('started_at', 'asc')->get();
 
-        return view('welcome', compact('event', 'materials', 'partners', 'programs'));
+        return view('welcome', compact('event', 'rooms', 'materials', 'partners', 'programs'));
     }
 }

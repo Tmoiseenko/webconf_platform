@@ -26,7 +26,7 @@ class SettingsListLayout extends Table
     protected function columns(): array
     {
         return [
-            TD::make('setting.title', __('Title'))
+            TD::make('setting.title', __('admin.main.title'))
                 ->render(function ($setting) {
                     return Link::make($setting->title)
                         ->route('platform.settings.edit', $setting);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProgramsTable extends Migration
+class CreateRoomsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,15 @@ class CreateProgramsTable extends Migration
      */
     public function up()
     {
-        Schema::create('programs', function (Blueprint $table) {
+        Schema::create('rooms', function (Blueprint $table) {
             $table->id();
-            $table->string('author')->nullable();
+            $table->string('title')->nullable();
+            $table->text('about')->nullable();
+            $table->string('link')->nullable();
+            $table->string('status_id', 50)->nullable();
+            $table->integer('order')->nullable()->default(0);
             $table->unsignedInteger('image_id')->nullable();
-            $table->text('topic')->nullable();
-            $table->boolean('vip')->nullable()->default(0);
-            $table->timestamp('started_at');
-            $table->timestamp('finished_at');
+            $table->unsignedBigInteger('partner_id')->nullable();
             $table->timestamps();
 
             $table->foreign('image_id')
@@ -28,6 +29,13 @@ class CreateProgramsTable extends Migration
                 ->on('attachments')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+
+            $table->foreign('partner_id')
+                ->references('id')
+                ->on('partners')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
         });
     }
 
@@ -38,6 +46,6 @@ class CreateProgramsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('programs');
+        Schema::dropIfExists('rooms');
     }
 }
