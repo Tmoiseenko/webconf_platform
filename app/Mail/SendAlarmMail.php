@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -12,16 +13,16 @@ class SendAlarmMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $user;
+    public $event;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(Setting $setting)
     {
-        //
+        $this->event = $setting;
     }
 
     /**
@@ -32,6 +33,6 @@ class SendAlarmMail extends Mailable
     public function build()
     {
         return $this->markdown('emails.alarm')
-                    ->subject('ИНФОDAY 2021');
+                    ->subject(env('APP_NAME'));
     }
 }

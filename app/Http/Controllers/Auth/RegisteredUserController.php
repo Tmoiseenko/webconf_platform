@@ -3,15 +3,21 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendCalendarLinkMail;
 use App\Models\Program;
+use App\Models\Role;
 use App\Models\Session;
+use App\Models\Setting;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use App\Events\SendCalendar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class RegisteredUserController extends Controller
 {
@@ -56,8 +62,11 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]));
 
+        $user->roles()->save(Role::where('slug', 'user')->first());
+
         event(new Registered($user));
-        event(new SendCalendar($user));
+
+        Mail::to($user->email)->send(new SendCalendarLinkMail(Setting::first()));
 
 
         return redirect(RouteServiceProvider::HOME);

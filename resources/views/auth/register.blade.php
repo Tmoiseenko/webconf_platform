@@ -9,11 +9,13 @@
                         <div class="col-md-6 register-card programs-card">
                             <div class="card-header color-white">{{ __('front.title.programs') }}</div>
                             <div class="row">
-                                @if($programs)
+                                @if($programs->isNotEmpty())
                                     @foreach($programs as $program)
                                         <div class="col-md-4 text-center">
                                             <strong>
-                                                {{ $program->started_at }} - {{ $program->finished_at }}
+                                                {{ Illuminate\Support\Carbon::parse($program->started_at)->format('H:i') }}
+                                                -
+                                                {{ Illuminate\Support\Carbon::parse($program->finished_at)->format('H:i') }}
                                             </strong>
                                         </div>
                                         <div class="col-md-8">
@@ -23,6 +25,7 @@
                                             <p>{!! nl2br($program->topic) !!}</p>
                                         </div>
                                     @endforeach
+                                @else
                                     <div class="col-md-12 text-center">
                                         <p>
                                             <strong>
@@ -37,7 +40,8 @@
                             <div class="row justify-content-center">
                                 <div class="col-md-4">
                                     <div class="d-flex justify-content-center align-items-center text-center h-100">
-                                        <img width="150px" height="90px" src="{{ asset('/images/logos/InfocellLogo-HighRes.png') }}">
+                                        <img width="150px" height="90px"
+                                             src="{{ asset('/images/logos/InfocellLogo-HighRes.png') }}">
                                     </div>
                                 </div>
                                 <div class="col-md-7">
@@ -88,7 +92,8 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('front.register.email') }}</label>
+                                        <label for="email"
+                                               class="col-md-4 col-form-label text-md-right">{{ __('front.register.email') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="email" type="email"
@@ -106,7 +111,8 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('front.register.phone') }}</label>
+                                        <label for="email"
+                                               class="col-md-4 col-form-label text-md-right">{{ __('front.register.phone') }}</label>
 
                                         <div class="col-md-6">
                                             <input id="phone" type="tel"
@@ -181,7 +187,8 @@
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" name="agree"
                                                    id="customCheck1" required>
-                                            <label class="custom-control-label super-small" for="customCheck1">{{ __('front.register.agree') }}</label>
+                                            <label class="custom-control-label super-small"
+                                                   for="customCheck1">{{ __('front.register.agree') }}</label>
 
                                             @error('agree')
                                             <span class="invalid-feedback" role="alert">
@@ -202,9 +209,10 @@
                     </div>
                 </div>
             </div>
-                <div class="col-md-5 mt-5">
-                    <a href="{{ route('login') }}" class="btn btn-light w-100 mt-3">{{ __('front.register.im_registred') }}</a>
-                </div>
+            <div class="col-md-5 mt-5">
+                <a href="{{ route('login') }}"
+                   class="btn btn-light w-100 mt-3">{{ __('front.register.im_registred') }}</a>
+            </div>
         </div>
     </div>
 @endsection

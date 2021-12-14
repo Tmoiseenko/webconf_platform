@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
+use App\Models\Role;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +19,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-
-
 Route::post('/joining', [App\Http\Controllers\UserTimeTreckerController::class, 'joining']);
 Route::post('/leaving', [App\Http\Controllers\UserTimeTreckerController::class, 'leaving']);
 
@@ -32,9 +31,9 @@ Route::group(['middleware' => 'auth'], function() {
 });
 
 
-Route::group(['middleware' => 'access:manager'], function() {
+Route::group(['middleware' => 'access:administrator'], function() {
     Route::get('/test', function(Request $request) {
-        dd('ok');
+        dd(env('APP_URL'));
     });
     Route::post('/chat/hide', [App\Http\Controllers\ChatController::class, 'banMessage']);
 });

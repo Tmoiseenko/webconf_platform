@@ -192,5 +192,11 @@ Route::screen('programs', ProgramsListScreen::class)
     });
 
 
-
+Route::screen('mails', \App\Orchid\Screens\MailsSender::class)
+    ->name('platform.mails.list')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.mails.panel_name'), route('platform.mails.list'));
+    });
 

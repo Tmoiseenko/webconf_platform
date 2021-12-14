@@ -53,6 +53,11 @@ class PlatformProvider extends OrchidServiceProvider
                 ->route('platform.programs.list')
                 ->permission('platform.systems.manager'),
 
+            Menu::make(__('admin.mails.menu_title'))
+                ->icon('envelope')
+                ->route('platform.mails.list')
+                ->permission('platform.systems.manager'),
+
             Menu::make(__('Users'))
                 ->icon('user')
                 ->route('platform.systems.users')

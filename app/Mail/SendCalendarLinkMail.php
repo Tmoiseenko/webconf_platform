@@ -8,13 +8,13 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Setting;
 use Spatie\CalendarLinks\Link;
-use \DateTime;
+use Illuminate\Support\Carbon;
 
 class SendCalendarLinkMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $setting;
+    public $event;
     public $data;
 
     /**
@@ -24,14 +24,14 @@ class SendCalendarLinkMail extends Mailable
      */
     public function __construct(Setting $setting)
     {
-        $this->setting = $setting;
+        $this->event = $setting;
 
-        $from = DateTime::createFromFormat('Y-m-d H:i:s', $setting->body['event_started_at']);
-        $to = DateTime::createFromFormat('Y-m-d H:i:s', $setting->body['event_finished_at']);
+        $from = Carbon::parse($setting->started_at);
+        $to = Carbon::parse($setting->finished_at);
 
-        $link = Link::create($setting->body['event_name'], $from, $to)
-                    ->description($setting->body['event_about'])
-                    ->address($setting->body['event_address']);
+        $link = Link::create($setting->title, $from, $to)
+                    ->description($setting->description)
+                    ->address(env('APP_URL'));
 
                     $this->data = base64_decode(str_replace('data:text/calendar;charset=utf8;base64,','',$link->ics()));
     }
@@ -44,7 +44,7 @@ class SendCalendarLinkMail extends Mailable
     public function build()
     {
         return $this->markdown('emails.send_calendar')
-                    ->subject('ИНФОСЭЛ')
+                    ->subject(env('APP_NAME'))
                     ->attachData($this->data, 'event.ics', [
                         'mime' => 'text/calendar',
                     ]);;
