@@ -222,15 +222,17 @@ export default {
         Echo.join('chat')
             .here((users) => {
                 this.users = users;
-
+                console.log('here ')
             })
             .joining((user) => {
                 if (this.checkIfUserAlreadyOnline(user) === -1) this.addUser(user);
-                // axios.post('/joining', {'user_id': user.id});
+                axios.post('/joining', {'user_id': user.id});
+                console.log('joining user:' + user.id)
             })
             .leaving((user) => {
                 this.removeUser(user);
-                // axios.post('/leaving', {'user_id': user.id});
+                axios.post('/leaving', {'user_id': user.id});
+                console.log('leaving user:' + user.id)
             })
             .listen('ChatEvent', (e) => {
                 this.messages.unshift(

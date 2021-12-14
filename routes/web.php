@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
-use App\Models\Role;
+use App\Http\Controllers\StatisticsController;
+use App\Models\Setting;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::post('/joining', [App\Http\Controllers\UserTimeTreckerController::class, 'joining']);
-Route::post('/leaving', [App\Http\Controllers\UserTimeTreckerController::class, 'leaving']);
+Route::post('/joining', [StatisticsController::class, 'joining']);
+Route::post('/leaving', [StatisticsController::class, 'leaving']);
 
 Route::group(['middleware' => 'auth'], function() {
     Route::get('/chat', [ChatController::class, 'chat']);
@@ -33,7 +35,11 @@ Route::group(['middleware' => 'auth'], function() {
 
 Route::group(['middleware' => 'access:administrator'], function() {
     Route::get('/test', function(Request $request) {
-        dd(env('APP_URL'));
+        $now = Carbon::now();
+        $event = Setting::first();
+        $start = Carbon::parse($event->start_time);
+        $end = Carbon::parse($event->end_time);
+        dd($now >= $start && $now <= $end);
     });
     Route::post('/chat/hide', [App\Http\Controllers\ChatController::class, 'banMessage']);
 });

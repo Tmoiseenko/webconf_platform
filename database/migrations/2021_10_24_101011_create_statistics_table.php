@@ -15,7 +15,9 @@ class CreateStatisticsTable extends Migration
     {
         Schema::create('statistics', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('user_id');
+            $table->timestamp('connected')->nullable();
+            $table->timestamp('disconnected')->nullable();
         });
     }
 

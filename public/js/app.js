@@ -2396,11 +2396,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
     Echo.join('chat').here(function (users) {
       _this.users = users;
+      console.log('here ');
     }).joining(function (user) {
-      if (_this.checkIfUserAlreadyOnline(user) === -1) _this.addUser(user); // axios.post('/joining', {'user_id': user.id});
+      if (_this.checkIfUserAlreadyOnline(user) === -1) _this.addUser(user);
+      axios.post('/joining', {
+        'user_id': user.id
+      });
+      console.log('joining user:' + user.id);
     }).leaving(function (user) {
-      _this.removeUser(user); // axios.post('/leaving', {'user_id': user.id});
+      _this.removeUser(user);
 
+      axios.post('/leaving', {
+        'user_id': user.id
+      });
+      console.log('leaving user:' + user.id);
     }).listen('ChatEvent', function (e) {
       _this.messages.unshift(_objectSpread(_objectSpread({}, e.message), {}, {
         likes: [],
