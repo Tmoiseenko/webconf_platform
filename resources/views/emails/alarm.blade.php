@@ -23,12 +23,13 @@ body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
         </tr>
         <tr>
             <td align="center" style="border: 1px solid transparent;padding:20px 0 20px 0">
-                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;color:#131954;font-size:36px">Бизнес-встреча с Cisco</div>
+                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;color:#131954;font-size:36px">{!! $event->title !!}</div>
             </td>
         </tr>
         <tr>
             <td align="center" style="vertical-align:middle;padding:20px 20px;">
-                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;text-align:center;color:#283583;font-size:16px;font-weight:normal;padding:0 20px 0px 20px">Внимание: для продолжения просмотра трансляции, пожалуйста, воспользуйтесь нашим зеркалом - <a href="https://cisco-conference2.infocell.ru">https://cisco-conference2.infocell.ru</a>
+                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;text-align:center;color:#283583;font-size:16px;font-weight:normal;padding:0 20px 0px 20px">{!! __('emails.sendDaily.translation') !!} -
+                    <a href="{{ env('APP_BACKUP_URL') }}">{{ env('APP_BACKUP_URL') }}</a>
 				</div>
             </td>
         </tr>
@@ -39,7 +40,7 @@ body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
                     <tbody>
                         <tr style="text-align:center;">
                             <td align="center" style="padding:20px 20px;vertical-align:middle;background:#C6201E;border-radius: 5px;">
-                                <a href="https://conference2.infocell.ru" style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;color:#fff;text-decoration: none;font-size:20px;font-weight:bolder;">ТРАНСЛЯЦИЯ</a>
+                                <a href="{{ env('APP_BACKUP_URL') }}" style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;color:#fff;text-decoration: none;font-size:20px;font-weight:bolder;">{!! __('emails.sendDaily.translation') !!}</a>
                             </td>
                         </tr>
                     </tbody>
