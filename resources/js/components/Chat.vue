@@ -19,7 +19,7 @@
                     </div>
                 </div>
                 <div v-else v-for="post in messages" :key="`message_post_${post.id}`" class="global-chat__message" :class="{'owner': post.user.id == userO.id}">
-                    <button v-if="userO.is_manager === 1" @click="hideMessage(post.id)" class="btn btn-danger btn-sm btn-hide"><i class="fas fa-minus-circle"></i></button>
+                    <button v-if="isManage" @click="hideMessage(post.id)" class="btn btn-danger btn-sm btn-hide"><i class="fas fa-minus-circle"></i></button>
 
                     <div class="chat-author mt-0" :class="{'chat-owner': post.user.id == userO.id}">{{post.user.name}}
                         <span v-if="post.user.id == userO.id"></span>
@@ -54,7 +54,7 @@
 
                             <span @click="addReply(post.id)" class="reply-button">Ответить</span>
                         </div>
-                            <!-- <button @click="dislike(post.id)" class="btn btn-dislike"><i class="las la-thumbs-down la-lg"></i> <small>{{ post.dislikes.length }}</small></button> -->
+
                         <div class="text-muted chat-timestamp">{{ moment(post.created_at).format('H:mm D.M.YYYY') }}</div>
                     </div>
                 </div>
@@ -74,11 +74,8 @@
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <input ref="imageRef" class="d-none" @change="fileUpload" type="file" accept="image/*" />
-                            <button @click.prevent="uploadImage" :disabled="!loadedButton" class="btn btn-link" type="button"><i class="fas fa-camera"></i></button>
+                            <button @click.prevent="uploadImage" :disabled="statusId" class="btn btn-link" type="button"><i class="fas fa-camera"></i></button>
                         </div>
-
-                        <!-- <input ref="globalchatmessage" v-model="message" @keyup.enter="sendViaEnter" type="text" class="form-control"> -->
-                        <!-- <textarea ref="globalchatmessage" v-model="message" @keyup.enter="sendViaEnter" type="text" class="form-control"></textarea> -->
 
                         <textarea-autosize
                             placeholder="Ваше сообщение..."
@@ -110,7 +107,7 @@
                                 </div>
                             </emoji-picker>
 
-                            <button @click.prevent="sendChatMessage" :disabled="!loadedButton" class="btn" type="button"><i class="fas fa-paper-plane"></i></button>
+                            <button @click.prevent="sendChatMessage" :disabled="statusId" class="btn" type="button"><i class="fas fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </div>
@@ -171,6 +168,7 @@ export default {
             replyId: -1,
             reply: {},
             isManage: {},
+            statusId: {},
         }
     },
     created() {
@@ -179,6 +177,9 @@ export default {
     mounted() {
         this.userO = this.user != '' ? JSON.parse(this.user) : ''
         this.isManage = this.isManagerCheck()
+        this.statusId = this.getStatusId()
+
+        console.log(this.userO)
 
         axios.get('/chat')
             .then((response) => {
@@ -196,8 +197,8 @@ export default {
                 this.loaded = true
             })
 
-        Echo.join('bans')
-            .listen('BanEvent', (e) => {
+        Echo.join('hide')
+            .listen('HideEvent', (e) => {
                 let idx = this.messages.findIndex(item => item.id === e.message.id)
                 this.messages.splice(idx, 1)
             });
@@ -222,17 +223,15 @@ export default {
         Echo.join('chat')
             .here((users) => {
                 this.users = users;
-                console.log('here ')
+                axios.post('/updating', {'users': users});
             })
             .joining((user) => {
                 if (this.checkIfUserAlreadyOnline(user) === -1) this.addUser(user);
                 axios.post('/joining', {'user_id': user.id});
-                console.log('joining user:' + user.id)
             })
             .leaving((user) => {
                 this.removeUser(user);
                 axios.post('/leaving', {'user_id': user.id});
-                console.log('leaving user:' + user.id)
             })
             .listen('ChatEvent', (e) => {
                 this.messages.unshift(
@@ -242,6 +241,14 @@ export default {
                 this.$nextTick(() => {
                     this.$refs.chatfeed.scrollTop = 0
                 })
+            });
+
+        Echo.private('bans')
+            .listen('BanEvent', (e) => {
+                if(this.userO.id == e.user["id"]) {
+                    this.userO = e.user
+                    this.statusId = this.getStatusId()
+                }
             });
 
         this.$refs.dragndrop.addEventListener('dragenter', this.handleDragIn)
@@ -257,13 +264,18 @@ export default {
         }, 100)
     },
     methods: {
+        getStatusId() {
+            if (this.userO.status_id === 0) {
+                return true
+            }
+            return false
+        },
         isManagerCheck() {
             if (this.userO.roles.find(x => x.slug === 'manager') !== undefined) {
                 return this.userO.roles.find(x => x.slug === 'manager').slug === 'manager'
             }
             return false
         },
-
         addReply(postId) {
             this.replyId = postId
 
@@ -324,7 +336,7 @@ export default {
             axios.post('/chat/hide', {
                 message_id: postId
             })
-                .then(response => {
+                .then(c => {
                 })
                 .catch(e => {
                     console.log(e)
@@ -513,7 +525,6 @@ export default {
             let idx = this.users.findIndex(item => item.id === user.id)
             this.users.splice(idx, 1)
         },
-
         sendViaEnter: function(e) {
             this.sendChatMessage()
         },

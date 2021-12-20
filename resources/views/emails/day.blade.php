@@ -35,9 +35,9 @@ body, table, td {
     <tr>
         <td align="center" style="border: 1px solid transparent;padding:0 0 20px 0;">
             <div
-                style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;color:#283583;font-size:26px;padding:20px 20px;">{!!\Illuminate\Support\Carbon::parse($event->start_time)->format('d F')!!}
+                style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;color:#283583;font-size:26px;padding:20px 20px;">{!!\Illuminate\Support\Carbon::parse($event->start_time)->translatedFormat('d F')!!}
                 в
-                {!! \Illuminate\Support\Carbon::parse($event->start_time)->format('H:i') !!}</div>
+                {!! \Illuminate\Support\Carbon::parse($event->start_time)->translatedFormat('H:i') !!}</div>
         </td>
     </tr>
     <tr>

@@ -2289,9 +2289,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2334,7 +2331,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       moreLoading: false,
       replyId: -1,
       reply: {},
-      isManage: {}
+      isManage: {},
+      statusId: {}
     };
   },
   created: function created() {
@@ -2345,6 +2343,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     this.userO = this.user != '' ? JSON.parse(this.user) : '';
     this.isManage = this.isManagerCheck();
+    this.statusId = this.getStatusId();
+    console.log(this.userO);
     axios.get('/chat').then(function (response) {
       _this.messages = response.data.messages.data;
 
@@ -2364,7 +2364,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       _this.loaded = true;
     });
-    Echo.join('bans').listen('BanEvent', function (e) {
+    Echo.join('hide').listen('HideEvent', function (e) {
+      console.log(e);
+
       var idx = _this.messages.findIndex(function (item) {
         return item.id === e.message.id;
       });
@@ -2372,6 +2374,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _this.messages.splice(idx, 1);
     });
     Echo.join('likes').listen('LikeEvent', function (e) {
+      console.log(e);
+
       var idx = _this.messages.findIndex(function (item) {
         return item.id === e.message.id;
       });
@@ -2396,20 +2400,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
     Echo.join('chat').here(function (users) {
       _this.users = users;
-      console.log('here ');
+      axios.post('/updating', {
+        'users': users
+      });
     }).joining(function (user) {
       if (_this.checkIfUserAlreadyOnline(user) === -1) _this.addUser(user);
       axios.post('/joining', {
         'user_id': user.id
       });
-      console.log('joining user:' + user.id);
     }).leaving(function (user) {
       _this.removeUser(user);
 
       axios.post('/leaving', {
         'user_id': user.id
       });
-      console.log('leaving user:' + user.id);
     }).listen('ChatEvent', function (e) {
       _this.messages.unshift(_objectSpread(_objectSpread({}, e.message), {}, {
         likes: [],
@@ -2419,6 +2423,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       _this.$nextTick(function () {
         _this.$refs.chatfeed.scrollTop = 0;
       });
+    });
+    Echo["private"]('bans').listen('BanEvent', function (e) {
+      if (_this.userO.id == e.user["id"]) {
+        _this.userO = e.user;
+        _this.statusId = _this.getStatusId();
+        console.log(_this.userO);
+      }
     });
     this.$refs.dragndrop.addEventListener('dragenter', this.handleDragIn);
     this.$refs.dragndrop.addEventListener('dragleave', this.handleDragOut);
@@ -2431,6 +2442,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }, 100);
   },
   methods: {
+    getStatusId: function getStatusId() {
+      if (this.userO.status_id === 0) {
+        return true;
+      }
+
+      return false;
+    },
     isManagerCheck: function isManagerCheck() {
       if (this.userO.roles.find(function (x) {
         return x.slug === 'manager';
@@ -2500,7 +2518,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     hideMessage: function hideMessage(postId) {
       axios.post('/chat/hide', {
         message_id: postId
-      }).then(function (response) {})["catch"](function (e) {
+      }).then(function (c) {})["catch"](function (e) {
         console.log(e);
       });
       var idx = this.messages.findIndex(function (item) {
@@ -72994,7 +73012,7 @@ var render = function () {
                         class: { owner: post.user.id == _vm.userO.id },
                       },
                       [
-                        _vm.userO.is_manager === 1
+                        _vm.isManage
                           ? _c(
                               "button",
                               {
@@ -73260,10 +73278,7 @@ var render = function () {
                           "button",
                           {
                             staticClass: "btn btn-link",
-                            attrs: {
-                              disabled: !_vm.loadedButton,
-                              type: "button",
-                            },
+                            attrs: { disabled: _vm.statusId, type: "button" },
                             on: {
                               click: function ($event) {
                                 $event.preventDefault()
@@ -73420,10 +73435,7 @@ var render = function () {
                             "button",
                             {
                               staticClass: "btn",
-                              attrs: {
-                                disabled: !_vm.loadedButton,
-                                type: "button",
-                              },
+                              attrs: { disabled: _vm.statusId, type: "button" },
                               on: {
                                 click: function ($event) {
                                   $event.preventDefault()
