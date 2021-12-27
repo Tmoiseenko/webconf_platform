@@ -179,8 +179,6 @@ export default {
         this.isManage = this.isManagerCheck()
         this.statusId = this.getStatusId()
 
-        console.log(this.userO)
-
         axios.get('/chat')
             .then((response) => {
                 this.messages = response.data.messages.data

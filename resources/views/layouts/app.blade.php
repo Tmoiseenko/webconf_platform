@@ -30,7 +30,8 @@
             <div class="container-fluid">
                 <ul class="navbar-nav mr-auto">
                     <li class="d-flex align-items-center mr-3">
-                        <main-menu></main-menu>
+
+                        <main-menu user="{{ Auth::user() }}" ></main-menu>
                     </li>
                     <li class="logo-type">{{ __('front.title.main_title') }}</li>
                 </ul>
@@ -61,7 +62,6 @@
                 </ul>
             </div>
         </nav>
-
         <main class="py-4">
             @yield('content')
         </main>

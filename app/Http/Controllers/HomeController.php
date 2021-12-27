@@ -33,7 +33,14 @@ class HomeController extends Controller
         $materials = Material::orderBy('order', 'asc')->get();
         $partners = Partner::orderBy('order', 'asc')->get();
         $programs = Program::orderBy('started_at', 'asc')->get();
+        $navLinks = [
+            ['id' => '#stream', 'title' => 'Трансляция'],
+            ['id' => '#rooms', 'title' => 'Комнаты'],
+            ['id' => '#materials', 'title' => 'Материалы'],
+            ['id' => '#program', 'title' => 'Программа'],
+            ['id' => '#partners', 'title' => 'Партнеры'],
+        ];
 
-        return view('welcome', compact('event', 'rooms', 'materials', 'partners', 'programs'));
+        return view('welcome', compact('event', 'rooms', 'materials', 'partners', 'programs', 'navLinks'));
     }
 }

@@ -44,7 +44,7 @@
         @endif
 
         @if($materials->isNotEmpty())
-        <section class="mt-5" id="rooms">
+        <section class="mt-5" id="materials">
             <h2 class="text-primary mb-3 mt-5">{{ __('front.title.materials') }}</h2>
             <hr>
             <div class="row mt-4">
