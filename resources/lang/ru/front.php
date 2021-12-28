@@ -18,7 +18,7 @@ return [
         'im_not_registred' => 'У меня нет аккаунта. Зарегистрироваться',
     ],
     'title' => [
-        'main_title' => 'ИНФОСЭЛ',
+        'main_title' => 'Webconf',
         'rooms' => 'Трансляции',
         'programs' => 'Программа',
         'register' => 'Регистрация',
