@@ -24,7 +24,7 @@
                         <a class="link" target="_blank" href="{{ $room->link }}">
                             <div class="card-low">
                                 <div class="card-body text-center">
-                                    @if($room->partner)
+                                    @if($room->partner->image->getRelativeUrlAttribute())
                                         <div class="partner-logo">
                                             <div style="background-image: url({{ $room->image->getRelativeUrlAttribute() }})"></div>
                                         </div>
@@ -53,7 +53,7 @@
                         <a class="link" target="_blank" href="{{ $material->link }}">
                             <div class="card-low">
                                 <div class="card-body text-center">
-                                    @if($material->partner)
+                                    @if($material->image)
                                         <div class="partner-logo">
                                             <div style="background-image: url({{ $material->image->getRelativeUrlAttribute() }})"></div>
                                         </div>

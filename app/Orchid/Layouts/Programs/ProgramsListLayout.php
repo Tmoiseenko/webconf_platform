@@ -34,10 +34,16 @@ class ProgramsListLayout extends Table
             TD::make('id', 'ID')
                 ->width('150')
                 ->render(function (Program $program) {
-                    return "<img src='{$program->image->getRelativeUrlAttribute()}'
+                    $html = '';
+                    if ($program->image) {
+                        $html = "<img src='{$program->image->getRelativeUrlAttribute()}'
                               alt='{$program->image->getTitleAttribute()}'
                               class='mw-100 d-block img-fluid'>
                             <span class='small text-muted mt-1 mb-0'># {$program->id}</span>";
+                    } else {
+                        $html = "<span class='small text-muted mt-1 mb-0'># {$program->id}</span>";
+                    }
+                    return $html;
                 }),
             TD::make('title', __('admin.main.title'))
                 ->align(TD::ALIGN_CENTER)

@@ -33,10 +33,16 @@ class PartnersListLayout extends Table
             TD::make('id', 'ID')
                 ->width('150')
                 ->render(function (Partner $partner) {
-                    return "<img src='{$partner->image->getRelativeUrlAttribute()}'
+                    $html = '';
+                    if ($partner->image) {
+                        $html = "<img src='{$partner->image->getRelativeUrlAttribute()}'
                               alt='{$partner->image->getTitleAttribute()}'
                               class='mw-100 d-block img-fluid'>
                             <span class='small text-muted mt-1 mb-0'># {$partner->id}</span>";
+                    } else {
+                        $html = "<span class='small text-muted mt-1 mb-0'># {$partner->id}</span>";
+                    }
+                    return $html;
                 }),
             TD::make('title', __('admin.main.title'))
                 ->align(TD::ALIGN_CENTER)
