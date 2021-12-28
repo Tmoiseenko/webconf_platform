@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\BanEvent;
+use App\Events\HideEvent;
 use App\Events\ChatEvent;
 use App\Events\LikeEvent;
 use App\Models\Message;
@@ -94,7 +94,7 @@ class ChatController extends Controller
         $message->status_id = 0;
         $message->save();
 
-        event(new BanEvent($message));
+        event(new HideEvent($message));
 
         return response()->json(['success' => true], 200);
     }

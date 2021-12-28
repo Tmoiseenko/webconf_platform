@@ -23,7 +23,7 @@ class MaterialsListScreen extends Screen
     public function query(): array
     {
         return [
-            'materials' => Material::paginate()
+            'materials' => Material::orderBy('order', 'asc')->paginate()
         ];
     }
 

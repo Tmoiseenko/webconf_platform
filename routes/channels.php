@@ -23,6 +23,10 @@ Broadcast::channel('likes', function ($user) {
     return ['id' => $user->id, 'name' => $user->name];
 });
 
+Broadcast::channel('hide', function ($user) {
+    return ['id' => $user->id, 'name' => $user->name];
+});
+
 Broadcast::channel('bans', function ($user) {
     return ['id' => $user->id, 'name' => $user->name];
 });

@@ -38,12 +38,18 @@ class PartnersListLayout extends Table
                               class='mw-100 d-block img-fluid'>
                             <span class='small text-muted mt-1 mb-0'># {$partner->id}</span>";
                 }),
-            TD::make('title', __('Title'))
+            TD::make('title', __('admin.main.title'))
                 ->align(TD::ALIGN_CENTER)
                 ->render(function (Partner $partner) {
                     return $partner->title;
                 }),
-            TD::make('action', __('Action'))
+
+            TD::make('title', __('admin.partners.order'))
+                ->align(TD::ALIGN_CENTER)
+                ->render(function (Partner $partner) {
+                    return $partner->order;
+                }),
+            TD::make('action', __('admin.main.action'))
                 ->align(TD::ALIGN_RIGHT)
                 ->render(function (Partner $partner) {
                     return DropDown::make()

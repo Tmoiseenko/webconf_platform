@@ -5,6 +5,7 @@ namespace App\Listeners;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Events\SendCalendar;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Setting;
 use App\Mail\SendCalendarLinkMail;
@@ -29,6 +30,7 @@ class SendCalendarLink
      */
     public function handle(SendCalendar $event)
     {
+        Log::info($event->user->email);
         $setting = Setting::first();
         Mail::to($event->user->email)->send(new SendCalendarLinkMail($setting));
     }

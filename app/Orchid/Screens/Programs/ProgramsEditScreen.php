@@ -34,7 +34,7 @@ class ProgramsEditScreen extends Screen
     {
         $this->exists = $program->exists;
 
-        $this->exists ? $this->name = __('admin.partners.edit') : $this->name = __('admin.partners.create') ;
+        $this->exists ? $this->name = __('admin.programs.edit') : $this->name = __('admin.programs.create') ;
 
         $program->load('attachment');
 
@@ -78,31 +78,34 @@ class ProgramsEditScreen extends Screen
         return [
             Layout::rows([
                 Input::make('program.author')
-                    ->title(__('admin.partners.title'))
-                    ->placeholder(__('admin.partners.title_placeholder')),
+                    ->title(__('admin.programs.title'))
+                    ->placeholder(__('admin.programs.title_placeholder')),
 
                 TextArea::make('program.topic')
-                    ->title(__('admin.partners.about'))
+                    ->title(__('admin.programs.about'))
                     ->rows(5)
                     ->maxlength(200)
-                    ->placeholder(__('admin.partners.about_placeholder')),
+                    ->placeholder(__('admin.programs.about_placeholder')),
 
                 CheckBox::make('program.vip')
-                    ->title(__('admin.partners.vip'))
+                    ->title(__('admin.programs.vip'))
                     ->sendTrueOrFalse(),
 
                 DateTimer::make('program.started_at')
-                    ->title(__('admin.partners.started_at'))
+                    ->title(__('admin.programs.started_at'))
+                    ->format24hr()
                     ->noCalendar()
-                    ->format('h:i'),
+                    ->enableTime()
+                    ,
 
                 DateTimer::make('program.finished_at')
-                    ->title(__('admin.partners.started_at'))
+                    ->title(__('admin.programs.started_at'))
+                    ->format24hr()
                     ->noCalendar()
-                    ->format('h:i'),
-
+                    ->enableTime()
+                        ,
                 Cropper::make('program.image_id')
-                    ->title(__('admin.partners.image_id'))
+                    ->title(__('admin.programs.image_id'))
                     ->targetId()
 
             ])

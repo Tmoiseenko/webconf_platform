@@ -23,26 +23,30 @@ body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
         </tr>
         <tr>
             <td align="center" style="border: 1px solid transparent;padding:20px 0 10px 0">
-                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;color:#131954;font-size:36px">Бизнес-встреча с Cisco</div>
+                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;color:#131954;font-size:36px">
+                    {{ $event->title }}</div>
             </td>
         </tr>
         <tr>
             <td align="center" style="border: 1px solid transparent;padding:0 0 20px 0;">
-                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;color:#283583;font-size:26px;padding:20px 20px;">29 июня в 12:00</div>
+                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;font-weight:bolder;color:#283583;font-size:26px;padding:20px 20px;">
+                    {{\Illuminate\Support\Carbon::parse($event->start_time)->translatedFormat('d F')}} в
+                        {{ \Illuminate\Support\Carbon::parse($event->start_time)->translatedFormat('H:i') }}</div>
             </td>
         </tr>
         <tr>
             <td align="center" style="vertical-align:middle;padding:20px 20px;">
-                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;text-align:center;color:#283583;font-size:16px;font-weight:normal;padding:0 20px 0px 20px">Бизнес-встреча с Cisco начнется уже совсем скоро
+                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;text-align:center;color:#283583;font-size:16px;font-weight:normal;padding:0 20px 0px 20px">{{ $event->title }}
+                    {{ __('emails.sendHourly.startsSoon') }}
 				</div>
-				<div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;text-align:center;color:#283583;font-size:16px;font-weight:normal;padding:0 20px 20px 20px">Подключайтесь!
+				<div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;text-align:center;color:#283583;font-size:16px;font-weight:normal;padding:0 20px 20px 20px">{{ __('emails.sendHourly.connect') }}
 				</div>
             </td>
         </tr>
 
         <tr style="text-align:center;background:#131954;border: 1px solid transparent;">
             <td align="center" style="padding:20px 20px;vertical-align:middle">
-                <div style="padding-bottom:20px;max-width: 600px;font-family:Arial,Helvetica,sans-serif;color:#fff;font-size:16px;font-weight:bolder;">Подключиться к онлайн конференции можно здесь:</div>
+                <div style="padding-bottom:20px;max-width: 600px;font-family:Arial,Helvetica,sans-serif;color:#fff;font-size:16px;font-weight:bolder;">{{ __('emails.sendHourly.connectHere') }}</div>
             </td>
         <tr>
 
@@ -52,7 +56,7 @@ body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
                     <tbody>
                         <tr style="text-align:center;">
                             <td align="center" style="padding:20px 20px;vertical-align:middle;background:#C6201E;border-radius: 5px;">
-                                <a href="https://cisco-conference.infocell.ru" style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;color:#fff;text-decoration: none;font-size:20px;font-weight:bolder;">ТРАНСЛЯЦИЯ</a>
+                                <a href="{{ env('APP_URL') }}" style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;color:#fff;text-decoration: none;font-size:20px;font-weight:bolder;">{{ __('emails.sendHourly.translation') }}</a>
                             </td>
                         </tr>
                     </tbody>
@@ -62,8 +66,9 @@ body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
 
         <tr style="text-align:center;background:#131954;border: 1px solid transparent;">
             <td align="center" style="padding:0px 20px 20px 20px;vertical-align:middle">
-                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;color:#fff;font-size:16px;font-weight:normal;">По любым вопросам, связанным с мероприятием, пишите на почту <a style="color:#fff;text-decoration:underline" href="mailto:inform@infocell.ru">inform@infocell.ru</a></div>
-                <div style="font-family:Arial,Helvetica,sans-serif;color:#fff;font-size:16px;font-weight:bolder;padding-top:20px">Ждем вас!</div>
+                <div style="max-width: 600px;font-family:Arial,Helvetica,sans-serif;color:#fff;font-size:16px;font-weight:normal;">{!! __('emails.sendHourly.writeHere') !!}
+                    <a style="color:#fff;text-decoration:underline" href="mailto:{!! env('CLIENT_MAIL_ADDRESS') !!}">{!! env('CLIENT_MAIL_ADDRESS') !!}</a></div>
+                <div style="font-family:Arial,Helvetica,sans-serif;color:#fff;font-size:16px;font-weight:bolder;padding-top:20px">{!! __('emails.sendHourly.waitYou') !!}</div>
             </td>
         <tr>
     </table>

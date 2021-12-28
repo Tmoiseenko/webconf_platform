@@ -11,6 +11,8 @@ use App\Orchid\Screens\Programs\ProgramsEditScreen;
 use App\Orchid\Screens\Programs\ProgramsListScreen;
 use App\Orchid\Screens\Role\RoleEditScreen;
 use App\Orchid\Screens\Role\RoleListScreen;
+use App\Orchid\Screens\Rooms\RoomsEditScreen;
+use App\Orchid\Screens\Rooms\RoomsListScreen;
 use App\Orchid\Screens\Settings\SettingsEditScreen;
 use App\Orchid\Screens\Settings\SettingsListScreen;
 use App\Orchid\Screens\User\UserEditScreen;
@@ -140,7 +142,23 @@ Route::screen('materials', MaterialsListScreen::class)
             ->push(__('admin.materials.panel_name'), route('platform.materials.list'));
     });
 
-// Platform > Materials
+// Platform > Rooms
+Route::screen('room/{room?}', RoomsEditScreen::class)
+    ->name('platform.room.edit')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.rooms.list')
+            ->push(__('admin.rooms.edit_banner'));
+    });
+Route::screen('rooms', RoomsListScreen::class)
+    ->name('platform.rooms.list')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.rooms.panel_name'), route('platform.rooms.list'));
+    });
+
+// Platform > Partners
 Route::screen('partner/{partner?}', PartnersEditScreen::class)
     ->name('platform.partners.edit')
     ->breadcrumbs(function (Trail $trail){
@@ -162,7 +180,7 @@ Route::screen('program/{program?}', ProgramsEditScreen::class)
     ->name('platform.program.edit')
     ->breadcrumbs(function (Trail $trail){
         return $trail
-            ->parent('platform.partners.list')
+            ->parent('platform.programs.list')
             ->push(__('admin.programs.edit_banner'));
     });
 Route::screen('programs', ProgramsListScreen::class)
@@ -174,5 +192,11 @@ Route::screen('programs', ProgramsListScreen::class)
     });
 
 
-
+Route::screen('mails', \App\Orchid\Screens\MailsSender::class)
+    ->name('platform.mails.list')
+    ->breadcrumbs(function (Trail $trail){
+        return $trail
+            ->parent('platform.index')
+            ->push(__('admin.mails.panel_name'), route('platform.mails.list'));
+    });
 

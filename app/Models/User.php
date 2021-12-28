@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
 use Orchid\Platform\Models\User as Authenticatable;
 
 class User extends Authenticatable
@@ -16,6 +17,10 @@ class User extends Authenticatable
         'email',
         'password',
         'permissions',
+        'phone',
+        'position',
+        'company',
+        'status_id',
     ];
 
     /**
@@ -26,7 +31,6 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-        'permissions',
     ];
 
     /**
@@ -63,4 +67,44 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    protected $with = ['roles'];
+
+    public function statistics() {
+        return $this->hasMany(Statistic::class, 'user_id');
+    }
+
+    public function getTotalAttribute()
+    {
+        $totalInSeconds = \Carbon\Carbon::parse($this->created_at)->diffInSeconds(\Carbon\Carbon::parse(Carbon::now()));
+
+        \Carbon\Carbon::setLocale('ru');
+
+        \Carbon\CarbonInterval::setCascadeFactors([
+            'minute' => [60, 'seconds'],
+            'hour' => [60, 'minutes'],
+            'day' => [24, 'hours'],
+        ]);
+
+        return $totalInSeconds > 0 ? \Carbon\CarbonInterval::seconds($totalInSeconds)->cascade()->forHumans() : '-';
+    }
+
+    public function getEventTimeAttribute() {
+        $statistics = $this->statistics;
+        $totalInSeconds = 0;
+
+        foreach($statistics as $session) {
+            $totalInSeconds += \Carbon\Carbon::parse($session->connected)->diffInSeconds(\Carbon\Carbon::parse($session->disconnected));
+        }
+
+        \Carbon\Carbon::setLocale('ru');
+
+        \Carbon\CarbonInterval::setCascadeFactors([
+            'minute' => [60, 'seconds'],
+            'hour' => [60, 'minutes'],
+            'day' => [8, 'hours'],
+        ]);
+
+        return $totalInSeconds > 0 ? \Carbon\CarbonInterval::seconds($totalInSeconds)->cascade()->forHumans() : '-';
+    }
 }

@@ -8,7 +8,7 @@ use Orchid\Attachment\Attachable;
 use Orchid\Attachment\Models\Attachment;
 use Orchid\Screen\AsSource;
 
-class Material extends Model
+class Room extends Model
 {
     use HasFactory, AsSource, Attachable;
 

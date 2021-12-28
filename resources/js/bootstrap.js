@@ -39,18 +39,12 @@ import Echo from 'laravel-echo';
 
 window.io = require('socket.io-client');
 
-//Local dev working
-// window.Echo = new Echo({
-//   broadcaster: 'socket.io',
-//   host: 'http://' + window.location.hostname + ':6001',
-//   transports: ['websocket', 'polling', 'flashsocket']
-// });
-
 window.Echo = new Echo({
   broadcaster: 'socket.io',
   host: `${window.echoConfig.host}:${window.echoConfig.port}`,
   transports: ['websocket', 'polling', 'flashsocket']
 });
+
 
 
 

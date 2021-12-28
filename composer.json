@@ -12,7 +12,8 @@
         "laravel/horizon": "^5.7",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "orchid/platform": "^10.21"
+        "orchid/platform": "^10.21",
+        "spatie/calendar-links": "^1.6"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

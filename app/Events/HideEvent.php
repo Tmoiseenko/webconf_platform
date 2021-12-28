@@ -10,20 +10,24 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SendCalendar
+use App\Models\Message;
+
+class HideEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
+    public $message;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct(Message $message)
     {
-        $this->user = $user;
+        $this->message = $message;
+
+        $this->dontBroadcastToCurrentUser();
     }
 
     /**
@@ -33,6 +37,6 @@ class SendCalendar
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('SendCalendarLink');
+        return new PresenceChannel('hide');
     }
 }

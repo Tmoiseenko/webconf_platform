@@ -61,26 +61,26 @@ class SettingsEditScreen extends Screen
         return [
             Layout::rows([
                 Input::make('setting.title')
-                    ->title(__('admin.setting.title'))
-                    ->placeholder(__('admin.setting.title_placeholder')),
+                    ->title(__('admin.settings.title'))
+                    ->placeholder(__('admin.settings.title_placeholder')),
 
                 TextArea::make('setting.description')
-                    ->title(__('admin.setting.description'))
+                    ->title(__('admin.settings.description'))
                     ->rows(5)
                     ->maxlength(200)
-                    ->placeholder(__('admin.setting.description_placeholder')),
+                    ->placeholder(__('admin.settings.description_placeholder')),
 
                 Input::make('setting.iframe_link')
-                    ->title(__('admin.setting.iframe_link'))
-                    ->placeholder(__('admin.setting.iframe_link_placeholder')),
+                    ->title(__('admin.settings.iframe_link'))
+                    ->placeholder(__('admin.settings.iframe_link_placeholder')),
 
                 DateTimer::make('setting.start_time')
-                    ->title(__('admin.setting.start_time'))
+                    ->title(__('admin.settings.start_time'))
                     ->enableTime()
                     ->format24hr(),
 
                 DateTimer::make('setting.end_time')
-                    ->title(__('admin.setting.end_time'))
+                    ->title(__('admin.settings.end_time'))
                     ->enableTime()
                     ->format24hr(),
             ])
